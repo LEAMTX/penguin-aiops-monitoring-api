@@ -1,45 +1,45 @@
 # Penguin AIOps Monitoring API
 
-## Objectif du projet
+## Project goal
 
-Ce projet est un mini-projet de machine learning appliqué à un cas de monitoring.
+This project is a small machine learning project applied to a monitoring use case.
 
-L'objectif est de créer une API capable de :
+The goal is to create an API able to:
 
-1. prédire l'espèce d'un pingouin à partir de mesures biologiques ;
-2. détecter si les mesures envoyées semblent normales ou inhabituelles.
+1. predict a penguin species from biological measurements;
+2. detect whether the submitted measurements look normal or unusual.
 
-Le projet s'inspire des problématiques AIOps : utiliser des données, entraîner des modèles, détecter des anomalies et exposer les résultats via une API.
+The project is inspired by AIOps workflows: using data, training models, detecting anomalies and exposing results through an API.
 
-## Lien avec l'AIOps
+## Link with AIOps
 
-Même si le dataset est biologique, la logique technique est proche d'un système de monitoring d'infrastructure.
+Although the dataset is biological, the technical logic is close to infrastructure monitoring.
 
-Les mesures des pingouins peuvent être comparées à des métriques techniques comme :
+Penguin measurements can be compared to infrastructure metrics such as:
 
-- CPU usage ;
-- memory usage ;
-- latency ;
-- response time ;
+- CPU usage;
+- memory usage;
+- latency;
+- response time;
 - error rate.
 
-Le modèle de détection d'anomalies permet d'identifier des mesures inhabituelles, comme un système AIOps pourrait détecter un comportement anormal dans une infrastructure ou une application.
+The anomaly detection model identifies unusual measurements, similar to how an AIOps system could detect abnormal infrastructure or application behavior.
 
-## Dataset utilisé
+## Dataset
 
-Le projet utilise le dataset Palmer Penguins.
+This project uses the Palmer Penguins dataset.
 
-Les données contiennent notamment :
+The dataset contains:
 
-- l'espèce du pingouin ;
-- la longueur du bec ;
-- la profondeur du bec ;
-- la longueur des nageoires ;
-- la masse corporelle ;
-- l'île ;
-- le sexe.
+- penguin species;
+- bill length;
+- bill depth;
+- flipper length;
+- body mass;
+- island;
+- sex.
 
-Dans ce projet, seules les mesures numériques suivantes sont utilisées :
+In this project, only the following numerical features are used:
 
 ```python
 colonnes_mesures = [
@@ -50,45 +50,43 @@ colonnes_mesures = [
 ]
 ```
 
-La colonne cible pour la classification est :
+The target column for classification is:
 
 ```python
 colonne_cible = "species"
 ```
 
-## Compétences techniques montrées
+## Technical skills demonstrated
 
-Ce projet montre les compétences suivantes :
+This project demonstrates:
 
-- Python ;
-- pandas pour le traitement des données ;
-- nettoyage de données ;
-- machine learning supervisé ;
-- détection d'anomalies ;
-- validation simple d'un modèle ;
-- sauvegarde de modèles avec joblib ;
-- création d'une API avec FastAPI ;
-- validation des entrées avec Pydantic ;
-- documentation interactive avec Swagger UI.
-- endpoints de monitoring simples avec `/health` et `/metrics` ;
-- tests automatisés avec pytest et TestClient ;
+- Python;
+- data processing with pandas;
+- data cleaning;
+- supervised machine learning;
+- anomaly detection;
+- simple model validation;
+- model persistence with joblib;
+- API development with FastAPI;
+- input validation with Pydantic;
+- interactive API documentation with Swagger UI.
 
-## Approche d'apprentissage
+## Learning approach
 
-Ce projet a été construit comme un projet d'apprentissage pour explorer les bases d'un pipeline AIOps.
+This project was built as a learning project to explore the main steps of an AIOps pipeline.
 
-Je me suis concentrée sur :
+I focused on:
 
-- la compréhension du dataset ;
-- le nettoyage des valeurs manquantes ;
-- l'entraînement d'un premier modèle supervisé ;
-- la validation du modèle avec l'accuracy ;
-- l'entraînement d'un modèle de détection d'anomalies ;
-- l'exposition des modèles avec des endpoints FastAPI.
+- understanding the dataset;
+- cleaning missing values;
+- training a first supervised model;
+- validating the model with accuracy;
+- training an anomaly detection model;
+- exposing both models through FastAPI endpoints.
 
-Le but n'est pas de créer un système parfait de production, mais de montrer une compréhension concrète du pipeline complet : données, modèle, validation et API.
+The goal was not to build a perfect production system, but to demonstrate a concrete understanding of the full AI/ML pipeline: data, model, validation and API serving.
 
-## Structure du projet
+## Project structure
 
 ```text
 penguin-iaops/
@@ -117,79 +115,78 @@ penguin-iaops/
 ├── Learningnotes.md
 ├── README_EN.md
 └── README.md
-
 ```
 
 ## Installation
 
-Créer un environnement virtuel :
+Create a virtual environment:
 
 ```bash
 python3 -m venv venv
 ```
 
-Activer l'environnement virtuel :
+Activate the virtual environment:
 
 ```bash
 source venv/bin/activate
 ```
 
-Installer les dépendances :
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Entraîner les modèles
+## Train the models
 
 ```bash
 python3 app/train_models.py
 ```
 
-Cette commande :
+This command:
 
-1. charge les données ;
-2. nettoie les valeurs manquantes ;
-3. prépare les données pour la classification ;
-4. sépare les données en entraînement et test ;
-5. entraîne un modèle RandomForestClassifier ;
-6. calcule l'accuracy ;
-7. entraîne un modèle IsolationForest ;
-8. sauvegarde les modèles dans `app/models`.
+1. loads the dataset;
+2. cleans missing values;
+3. prepares the classification data;
+4. splits the data into train and test sets;
+5. trains a RandomForestClassifier model;
+6. computes the accuracy;
+7. trains an IsolationForest model;
+8. saves both models into `app/models`.
 
-## Résultat du modèle
+## Model result
 
-Le modèle de classification obtient une précision d'environ :
+The classification model reaches an accuracy of approximately:
 
 ```text
 0.9565
 ```
 
-Cela signifie qu'environ 95,65 % des prédictions sont correctes sur les données de test.
+This means that around 95.65% of the predictions are correct on the test data.
 
-## Lancer l'API
+## Run the API
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Ouvrir ensuite :
+Then open:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-## Endpoints disponibles
+## Available endpoints
 
 ### GET /
 
-Vérifie que l'API fonctionne.
+Checks that the API is running.
 
 ### POST /predict-species
 
-Prédit l'espèce du pingouin à partir des mesures.
+Predicts the penguin species from the submitted measurements.
 
-Exemple de données envoyées :
+Input example:
 
 ```json
 {
@@ -200,7 +197,7 @@ Exemple de données envoyées :
 }
 ```
 
-Exemple de réponse :
+Response example:
 
 ```json
 {
@@ -211,9 +208,9 @@ Exemple de réponse :
 
 ### POST /detect-anomaly
 
-Détecte si les mesures semblent normales ou inhabituelles.
+Detects whether the submitted measurements look normal or unusual.
 
-Exemple de données inhabituelles :
+Unusual input example:
 
 ```json
 {
@@ -224,7 +221,7 @@ Exemple de données inhabituelles :
 }
 ```
 
-Exemple de réponse :
+Response example:
 
 ```json
 {
@@ -236,41 +233,41 @@ Exemple de réponse :
 
 ### GET /model-info
 
-Donne des informations sur les modèles utilisés.
+Returns information about the models used by the API.
 
-## Captures d'écran des tests API
+## API test screenshots
 
-### Test de prédiction d'espèce
+### Species prediction test
 
 ![Species prediction test](doc/images/speciespredictiontest.png)
 
-### Résultat de prédiction d'espèce
+### Species prediction result
 
 ![Species prediction result](doc/images/speciespredictionresult.png)
 
-### Test de détection d'anomalie
+### Anomaly detection test
 
 ![Anomaly detection test](doc/images/anomalydetectiontest.png)
 
-### Résultat de détection d'anomalie
+### Anomaly detection result
 
 ![Anomaly detection result](doc/images/anomalydetectionresult.png)
 
-## Interprétation des résultats
+## Result interpretation
 
-Le endpoint `/predict-species` retourne `Gentoo`, ce qui signifie que le modèle a identifié les mesures comme proches de l'espèce Gentoo.
+The `/predict-species` endpoint returned `Gentoo`, meaning that the model identified the input measurements as close to the Gentoo species.
 
-Le endpoint `/detect-anomaly` retourne `is_anomaly: true` lorsque les mesures envoyées sont volontairement irréalistes. Le score négatif confirme que le modèle considère ces données comme inhabituelles.
+The `/detect-anomaly` endpoint returned `is_anomaly: true` when intentionally unrealistic measurements were submitted. The negative anomaly score confirms that the model considered the input unusual.
 
-## Endpoints de monitoring
+## Monitoring endpoints
 
-L’API contient deux endpoints liés au monitoring.
+The API includes two monitoring endpoints.
 
 ### GET /health
 
-Permet de vérifier que l’API fonctionne correctement.
+Checks that the API is running correctly.
 
-Exemple de réponse :
+Response example:
 
 ```json
 {
@@ -278,13 +275,14 @@ Exemple de réponse :
   "message": "Api is running"
 }
 ```
-![Résultat du endpoint health](doc/images/health.png)
+
+![Health endpoint result](doc/images/health.png)
 
 ### GET /metrics
 
-Retourne des informations simples sur les modèles chargés et les données utilisées par l’API.
+Returns simple information about the loaded models and the features used by the API.
 
-Exemple de réponse :
+Response example:
 
 ```json
 {
@@ -299,56 +297,57 @@ Exemple de réponse :
     "body_mass_g"
   ]
 }
-``` 
-![Résultat du endpoint metrics](doc/images/metrics.png)
+```
 
-## Tests automatisés
+![Metrics endpoint result](doc/images/metrics.png)
 
-Le projet contient des tests automatisés avec `pytest` et `TestClient` de FastAPI.
+## Automated tests
 
-Les tests vérifient que les endpoints principaux répondent correctement :
+The project includes automated tests with `pytest` and FastAPI `TestClient`.
 
-- `/health` ;
-- `/model-info` ;
-- `/predict-species` ;
+The tests check that the main endpoints respond correctly:
+
+- `/health`;
+- `/model-info`;
+- `/predict-species`;
 - `/detect-anomaly`.
 
-Lancer les tests :
+Run the tests:
 
 ```bash
 pytest
 ```
 
-Résultat attendu :
+Expected result:
 
 ```text
 4 passed
 ```
 
-Ces tests permettent de vérifier rapidement que l’API fonctionne après une modification du code.
+These tests help verify quickly that the API still works after a code change.
 
-![Résultat des tests pytest](doc/images/tests.png)
+![Pytest test result](doc/images/tests.png)
 
-## Limites du projet
+## Project limits
 
-Ce projet est un MVP pédagogique.
+This project is a learning-oriented MVP.
 
-Limites actuelles :
+Current limits:
 
-- le dataset est petit ;
-- il n'y a pas encore de dashboard ;
-- les tests automatisés restent simples et couvrent seulement les endpoints principaux ;
-- le modèle n'est pas déployé en production ;
-- la détection d'anomalies repose sur une estimation de 5 % de données atypiques.
+- the dataset is small;
+- there is no dashboard yet;
+- the automated tests are still simple and only cover the main endpoints;
+- the model is not deployed in production;
+- anomaly detection is based on an estimated 5% contamination rate.
 
-## Améliorations possibles
+## Possible improvements
 
-- ajouter un dashboard avec Streamlit ;
-- améliorer la couverture des tests ;
-- ajouter une pipeline CI/CD ;
-- améliorer les endpoints de monitoring avec plus d’informations ;
-- comparer plusieurs modèles ;
-- ajouter un rapport de classification plus détaillé.
+- add a Streamlit dashboard;
+- improve test coverage;
+- add a CI/CD pipeline;
+- improve the monitoring endpoints with more information;
+- compare several models;
+- add a more detailed classification report.
 
 ## Docker
 
@@ -370,31 +369,31 @@ Then open:
 http://127.0.0.1:8000/docs
 ```
 
-## Pourquoi j'ai réalisé ce projet
+## Why I built this project
 
-J'ai réalisé ce projet après avoir analysé les compétences demandées pour le stage AI Ops.
+I built this project after reading the AI Ops internship requirements.
 
-L'offre mentionne notamment la détection d'anomalies, l'analyse prédictive, le monitoring d'infrastructure, la validation de modèles, la visualisation et la création d'endpoints API. J'ai donc voulu créer un projet court mais complet, capable de montrer ces blocs techniques de manière concrète.
+The internship mentions anomaly detection, predictive analytics, infrastructure monitoring, model validation, visualization and API endpoints. I wanted to create a small but complete project that demonstrates these technical blocks in a realistic and understandable way.
 
-J'ai choisi le dataset Palmer Penguins parce qu'il est scientifique, propre et facile à expliquer. Au lieu d'utiliser directement des métriques d'infrastructure, j'utilise des mesures biologiques comme version simplifiée de données de monitoring.
+I chose the Palmer Penguins dataset because it is clean, scientific and easy to explain. Instead of using infrastructure metrics directly, I used biological measurements as simplified monitoring metrics.
 
-Le but est de montrer que je comprends la logique d'un pipeline AIOps :
+The goal was to show that I understand the logic behind an AIOps pipeline:
 
-- collecter des données ;
-- nettoyer et préparer les données ;
-- entraîner un modèle ;
-- valider le modèle ;
-- détecter des anomalies ;
-- exposer le modèle avec une API ;
-- tester l'API avec une documentation interactive.
+- collect data;
+- clean and prepare data;
+- train a model;
+- validate the model;
+- detect anomalies;
+- expose the model through an API;
+- test the API through documentation.
 
-Ce projet n'est pas présenté comme un système AIOps de production. C'est un MVP d'apprentissage conçu pour montrer ma motivation, ma curiosité technique et ma progression concrète.
+This project is not presented as a production-ready AIOps system. It is a learning-oriented MVP designed to demonstrate motivation, technical curiosity and concrete progress.
 
 ## Sources
 
-- Palmer Penguins dataset : https://allisonhorst.github.io/palmerpenguins/
-- pandas documentation : https://pandas.pydata.org/docs/
-- scikit-learn documentation : https://scikit-learn.org/stable/
-- FastAPI documentation : https://fastapi.tiangolo.com/
-- Pydantic documentation : https://docs.pydantic.dev/
-- joblib documentation : https://joblib.readthedocs.io/
+- Palmer Penguins dataset: https://allisonhorst.github.io/palmerpenguins/
+- pandas documentation: https://pandas.pydata.org/docs/
+- scikit-learn documentation: https://scikit-learn.org/stable/
+- FastAPI documentation: https://fastapi.tiangolo.com/
+- Pydantic documentation: https://docs.pydantic.dev/
+- joblib documentation: https://joblib.readthedocs.io/
