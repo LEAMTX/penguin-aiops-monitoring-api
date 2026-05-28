@@ -123,3 +123,20 @@ def model_info():
         "classification_accuracy": 0.9565,
         "purpose": "Species prediction and anomaly detection"
     }
+
+@app.get("/health")
+def health_check_api():
+    return {
+        "status":"ok",
+        "message" : " Api is running"
+    }
+
+@app.get("/metrics")
+def show_metrics():
+    return {
+        "models_loaded": True,
+        "classification_model": "RandomForestClassifier",
+        "anomaly_model": "IsolationForest",
+        "features_count": len(colonnes_mesures),
+        "available_features": colonnes_mesures
+    }

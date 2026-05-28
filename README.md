@@ -70,6 +70,8 @@ Ce projet montre les compétences suivantes :
 - création d'une API avec FastAPI ;
 - validation des entrées avec Pydantic ;
 - documentation interactive avec Swagger UI.
+- endpoints de monitoring simples avec `/health` et `/metrics` ;
+- tests automatisés avec pytest et TestClient ;
 
 ## Approche d'apprentissage
 
@@ -109,6 +111,9 @@ penguin-iaops/
 ├── Dockerfile
 ├── .dockerignore
 ├── Makefile
+├── tests/
+│   └── test_api.py
+├── pytest.ini
 ├── Learningnotes.md
 ├── README_EN.md
 └── README.md
@@ -257,6 +262,73 @@ Le endpoint `/predict-species` retourne `Gentoo`, ce qui signifie que le modèle
 
 Le endpoint `/detect-anomaly` retourne `is_anomaly: true` lorsque les mesures envoyées sont volontairement irréalistes. Le score négatif confirme que le modèle considère ces données comme inhabituelles.
 
+## Endpoints de monitoring
+
+L’API contient deux endpoints liés au monitoring.
+
+### GET /health
+
+Permet de vérifier que l’API fonctionne correctement.
+
+Exemple de réponse :
+
+```json
+{
+  "status": "ok",
+  "message": "Api is running"
+}
+```
+![Résultat du endpoint health](doc/images/health.png)
+
+### GET /metrics
+
+Retourne des informations simples sur les modèles chargés et les données utilisées par l’API.
+
+Exemple de réponse :
+
+```json
+{
+  "models_loaded": true,
+  "classification_model": "RandomForestClassifier",
+  "anomaly_model": "IsolationForest",
+  "features_count": 4,
+  "available_features": [
+    "bill_length_mm",
+    "bill_depth_mm",
+    "flipper_length_mm",
+    "body_mass_g"
+  ]
+}
+``` 
+![Résultat du endpoint metrics](doc/images/metrics.png)
+
+## Tests automatisés
+
+Le projet contient des tests automatisés avec `pytest` et `TestClient` de FastAPI.
+
+Les tests vérifient que les endpoints principaux répondent correctement :
+
+- `/health` ;
+- `/model-info` ;
+- `/predict-species` ;
+- `/detect-anomaly`.
+
+Lancer les tests :
+
+```bash
+pytest
+```
+
+Résultat attendu :
+
+```text
+4 passed
+```
+
+Ces tests permettent de vérifier rapidement que l’API fonctionne après une modification du code.
+
+![Résultat des tests pytest](doc/images/tests.png)
+
 ## Limites du projet
 
 Ce projet est un MVP pédagogique.
@@ -265,16 +337,16 @@ Limites actuelles :
 
 - le dataset est petit ;
 - il n'y a pas encore de dashboard ;
-- il n'y a pas encore de tests automatisés ;
+- les tests automatisés restent simples et couvrent seulement les endpoints principaux ;
 - le modèle n'est pas déployé en production ;
 - la détection d'anomalies repose sur une estimation de 5 % de données atypiques.
 
 ## Améliorations possibles
 
 - ajouter un dashboard avec Streamlit ;
-- ajouter des tests unitaires ;
+- améliorer la couverture des tests ;
 - ajouter une pipeline CI/CD ;
-- ajouter un endpoint de monitoring ;
+- améliorer les endpoints de monitoring avec plus d’informations ;
 - comparer plusieurs modèles ;
 - ajouter un rapport de classification plus détaillé.
 

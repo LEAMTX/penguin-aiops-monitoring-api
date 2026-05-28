@@ -256,6 +256,75 @@ The `/predict-species` endpoint returned `Gentoo`, meaning that the model identi
 
 The `/detect-anomaly` endpoint returned `is_anomaly: true` when intentionally unrealistic measurements were submitted. The negative anomaly score confirms that the model considered the input unusual.
 
+## Monitoring endpoints
+
+The API includes two monitoring endpoints.
+
+### GET /health
+
+Checks that the API is running correctly.
+
+Response example:
+
+```json
+{
+  "status": "ok",
+  "message": "Api is running"
+}
+```
+
+![Health endpoint result](doc/images/health.png)
+
+### GET /metrics
+
+Returns simple information about the loaded models and the features used by the API.
+
+Response example:
+
+```json
+{
+  "models_loaded": true,
+  "classification_model": "RandomForestClassifier",
+  "anomaly_model": "IsolationForest",
+  "features_count": 4,
+  "available_features": [
+    "bill_length_mm",
+    "bill_depth_mm",
+    "flipper_length_mm",
+    "body_mass_g"
+  ]
+}
+```
+
+![Metrics endpoint result](doc/images/metrics.png)
+
+## Automated tests
+
+The project includes automated tests with `pytest` and FastAPI `TestClient`.
+
+The tests check that the main endpoints respond correctly:
+
+- `/health`;
+- `/model-info`;
+- `/predict-species`;
+- `/detect-anomaly`.
+
+Run the tests:
+
+```bash
+pytest
+```
+
+Expected result:
+
+```text
+4 passed
+```
+
+These tests help verify quickly that the API still works after a code change.
+
+![Pytest test result](doc/images/tests.png)
+
 ## Project limits
 
 This project is a learning-oriented MVP.
@@ -264,16 +333,16 @@ Current limits:
 
 - the dataset is small;
 - there is no dashboard yet;
-- there are no automated tests yet;
+- the automated tests are still simple and only cover the main endpoints;
 - the model is not deployed in production;
 - anomaly detection is based on an estimated 5% contamination rate.
 
 ## Possible improvements
 
 - add a Streamlit dashboard;
-- add unit tests;
+- improve test coverage;
 - add a CI/CD pipeline;
-- add a monitoring endpoint;
+- improve the monitoring endpoints with more information;
 - compare several models;
 - add a more detailed classification report.
 
